@@ -1,16 +1,22 @@
 <template>
 
     <div class="col-md-4 mx-auto mt-5">
-        <img alt="Vue logo" style="height: 50px;" src="../assets/logo.png">
+       <dic class="text-center">
+        <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
+       </dic>
         <h3 class="text-center py-5">Login</h3>
         <div class="card">
             <div class="card-body">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Enter email">
+                    <input type="text" class="form-control" placeholder="Enter email" v-model="email">
                 </div>
 
                 <div class="form-group">
-                    <button class="btn btn-primary">Login</button>
+                    <input type="password" class="form-control" placeholder="Enter password" v-model="password">
+                </div>
+
+                <div class="form-group">
+                    <button  @click="login()" class="btn btn-primary">{{ loading?'Please wait...':'Login' }}</button>
                 </div>
             </div>
         </div>
@@ -25,11 +31,14 @@ export default {
         return {
             email: '',
             password:'',
+            loading: false
         }
     },
 
     methods: {
         login(){
+
+            this.loading = true
 
         }
     },
