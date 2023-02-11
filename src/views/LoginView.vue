@@ -40,6 +40,26 @@ export default {
 
             this.loading = true
 
+
+            this.axios({
+                url: process.env.VUE_APP_URL +'/api/v1/login',
+                method: 'post',
+                data: {
+
+      
+                    email: this.email,
+                    password: this.password
+
+                }
+            }).then((response)=>{
+                this.loading = false
+                console.log(response)
+            }).catch((error)=>{
+
+                this.loading = false
+                console.log(error)
+            })
+
         }
     },
     
