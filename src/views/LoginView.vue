@@ -16,12 +16,12 @@
                 </div>
 
                 <div class="form-group">
-                    <button  @click="login()" class="btn btn-primary btn-block btn-sm">{{ loading?'Please wait...':'Login' }}</button>
+                    <button @click="login()" class="btn btn-primary btn-block btn-sm">{{loading?'Please wait...':'Login' }}</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </template>
 
 <script>
@@ -30,31 +30,36 @@ export default {
     data() {
         return {
             email: '',
-            password:'',
+            password: '',
             loading: false
         }
     },
 
     methods: {
-        login(){
+        login() {
 
             this.loading = true
 
 
             this.axios({
-                url: process.env.VUE_APP_URL +'/api/v1/login',
+                url: process.env.VUE_APP_URL + '/api/v1/login',
                 method: 'post',
                 data: {
 
-      
+
                     email: this.email,
                     password: this.password
 
                 }
-            }).then((response)=>{
+            }).then((response) => {
                 this.loading = false
+                localStorage.setItem('user_role', response.data.user_data.role);
+                localStorage.setItem('user_token', response.data.access_token);
+                localStorage.setItem('user_data', JSON.stringify(response.data.user_data));
                 console.log(response)
-            }).catch((error)=>{
+                return this.$router.push('/products')
+
+            }).catch((error) => {
 
                 this.loading = false
                 console.log(error)
@@ -62,6 +67,6 @@ export default {
 
         }
     },
-    
+
 }
 </script>

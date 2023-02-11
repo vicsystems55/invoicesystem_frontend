@@ -1,39 +1,44 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Features</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled">Disabled</a>
-                </li>
-            </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Invoice System</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto ">
+ 
+      
+    </ul>
+    <span class="navbar-text">
+        <h6 class="px-2"> CART (0) </h6>
+     
+    </span>
+    <form class="form-inline my-2 my-lg-0">
+
+      <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">LOGOUT</button>
+    </form>
+  </div>
+</nav>
+
+
+<div class="container pt-3">
+    <div class="frr">
+            <h6>Welcome, </h6>
         </div>
-    </nav>
+</div>
 
 
-    <div class="container">
+    <div class="container mt-3">
+      
         <div class="row">
             <div class="col-lg-4 col-md-3">
-                <div class="card" style="width: 18rem;">
+                <div class="card" style="width: 13rem;">
                     <img src="../assets/logo.png" class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                       
+                        <a href="#" class="btn btn-primary btn-sm">+ Add Product</a>
                     </div>
                 </div>
             </div>

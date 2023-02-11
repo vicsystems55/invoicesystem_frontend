@@ -11,8 +11,8 @@
                 <div v-show="error" class="c">
 
                     <div v-for="error in errors" :key="error.id" class="alert alert-danger" role="alert">
-                        {{error.toString()}}
-                        </div>
+                        {{ error.toString() }}
+                    </div>
 
                 </div>
 
@@ -33,12 +33,12 @@
                 </div>
 
                 <div class="form-group">
-                    <button  @click="register()" class="btn btn-primary btn-block btn-sm">{{ loading?'Please wait...':'Register' }}</button>
+                    <button @click="register()" class="btn btn-primary btn-block btn-sm">{{loading?'Please wait...':'Register' }}</button>
                 </div>
             </div>
         </div>
     </div>
-    
+
 </template>
 
 <script>
@@ -48,7 +48,7 @@ export default {
         return {
             name: '',
             email: '',
-            password:'',
+            password: '',
             loading: false,
 
             error: false,
@@ -58,13 +58,13 @@ export default {
     },
 
     methods: {
-        register(){
+        register() {
 
             this.loading = true
 
 
             this.axios({
-                url: process.env.VUE_APP_URL +'/api/v1/register',
+                url: process.env.VUE_APP_URL + '/api/v1/register',
                 method: 'post',
                 data: {
 
@@ -73,19 +73,24 @@ export default {
                     password: this.password
 
                 }
-            }).then((response)=>{
+            }).then((response) => {
                 this.loading = false
+
+                localStorage.setItem('user_role', response.data.user_data.role);
+                localStorage.setItem('user_token', response.data.access_token);
+                localStorage.setItem('user_data', JSON.stringify(response.data.user_data));
                 console.log(response)
+                return this.$router.push('/products')
 
 
-            }).catch((error)=>{
-                
+            }).catch((error) => {
+
 
                 this.loading = false
                 this.error = true
 
                 this.errors = error.response.data.errors
-            
+
                 console.log(this.errors)
             })
 
@@ -93,6 +98,6 @@ export default {
 
         }
     },
-    
+
 }
 </script>
