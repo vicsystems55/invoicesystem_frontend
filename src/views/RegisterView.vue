@@ -6,15 +6,27 @@
         <div class="card">
             <div class="card-body">
 
+                <div v-show="error" class="c">
+
+                    <div v-for="error in errors" :key="error.id" class="alert alert-danger" role="alert">
+                        {{error.toString()}}
+                        </div>
+
+                </div>
+
+
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Enter fullname" v-model="name">
+                    <label for="name">Fullname:</label>
+                    <input type="text" id="name" class="form-control" placeholder="Enter fullname" v-model="name">
                 </div>
 
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Enter email" v-model="email">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" class="form-control" placeholder="Enter email" v-model="email">
                 </div>
 
                 <div class="form-group">
+                    <label for="name">Password:</label>
                     <input type="password" class="form-control" placeholder="Create password" v-model="password">
                 </div>
 
@@ -35,7 +47,11 @@ export default {
             name: '',
             email: '',
             password:'',
-            loading: false
+            loading: false,
+
+            error: false,
+
+            errors: []
         }
     },
 
@@ -58,10 +74,17 @@ export default {
             }).then((response)=>{
                 this.loading = false
                 console.log(response)
+
+                
             }).catch((error)=>{
+                
 
                 this.loading = false
-                console.log(error)
+                this.error = true
+
+                this.errors = error.response.data.errors
+            
+                console.log(this.errors)
             })
 
 
