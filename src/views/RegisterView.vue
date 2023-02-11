@@ -1,7 +1,9 @@
 <template>
 
-    <div class="col-md-4 mx-auto mt-5">
-        <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
+    <div class="col-md-3 mx-auto mt-5">
+        <div class="text-center">
+            <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
+        </div>
         <h3 class="text-center py-5">Register</h3>
         <div class="card">
             <div class="card-body">
@@ -31,7 +33,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button  @click="register()" class="btn btn-primary">{{ loading?'Please wait...':'Register' }}</button>
+                    <button  @click="register()" class="btn btn-primary btn-block btn-sm">{{ loading?'Please wait...':'Register' }}</button>
                 </div>
             </div>
         </div>
@@ -75,7 +77,7 @@ export default {
                 this.loading = false
                 console.log(response)
 
-                
+
             }).catch((error)=>{
                 
 

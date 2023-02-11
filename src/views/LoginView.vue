@@ -1,9 +1,9 @@
 <template>
 
-    <div class="col-md-4 mx-auto mt-5">
-       <dic class="text-center">
-        <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
-       </dic>
+    <div class="col-md-3 mx-auto mt-5">
+        <div class="text-center">
+            <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
+        </div>
         <h3 class="text-center py-5">Login</h3>
         <div class="card">
             <div class="card-body">
@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="form-group">
-                    <button  @click="login()" class="btn btn-primary">{{ loading?'Please wait...':'Login' }}</button>
+                    <button  @click="login()" class="btn btn-primary btn-block btn-sm">{{ loading?'Please wait...':'Login' }}</button>
                 </div>
             </div>
         </div>
