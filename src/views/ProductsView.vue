@@ -7,6 +7,10 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto ">
+
+        <li class="nav-item">
+            <router-link class="nav-link" :to="'/products'">Products</router-link>
+          </li>
  
       
     </ul>
@@ -31,17 +35,25 @@
 
     <div class="container mt-3">
       
-        <div class="row">
-            <div class="col-lg-4 col-md-3">
-                <div class="card" style="width: 13rem;">
-                    <img src="../assets/logo.png" class="card-img-top" alt="...">
+        <div v-if="products.length != 0" class="row">
+            
+            <div v-for="product in products" :key="product.id" class="col-lg-4 col-md-3 mx-auto">
+                <div class="card m-3 shadow" style="width: 16rem; height: 350px;">
+                    <img :src="product.img_url" style="height: 230px; object-fit: cover; object-position: top center; " class="card-img-top" alt="...">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
+                        <h6 class="card-title">{{ product.name }}</h6>
                        
-                        <a href="#" class="btn btn-primary btn-sm">+ Add Product</a>
+                    </div>
+                    <div class="card-footer">
+                        
+                        <button href="#" class="btn btn-primary btn-sm">+ Add Product</button>
                     </div>
                 </div>
             </div>
+        </div>
+        <div v-else class="co py-5">
+            <h6 class="text-center py-5">No products in store...</h6>
+
         </div>
     </div>
 
@@ -56,5 +68,35 @@ export default {
             products: []
         }
     },
+
+    mounted() {
+        this.getProducts()
+    },
+
+    methods: {
+        getProducts() {
+
+            this.loading = true
+
+
+            this.axios({
+                url: process.env.VUE_APP_URL + '/api/v1/products',
+                method: 'get',
+               
+            }).then((response) => {
+                this.products = response.data
+
+                console.log(response)
+           
+            }).catch((error) => {
+
+                this.loading = false
+                console.log(error)
+            })
+
+        }
+    },
+
+
 }
 </script>

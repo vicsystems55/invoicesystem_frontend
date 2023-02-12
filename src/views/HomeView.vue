@@ -1,30 +1,35 @@
 <template>
   <div class="home">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Navbar</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <a class="navbar-brand" href="#">Invoice System</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-          </li>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto ">
+
           <li class="nav-item">
-            <a class="nav-link" href="#">Features</a>
+            <router-link class="nav-link" :to="'/products'">Products</router-link>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link disabled">Disabled</a>
-          </li>
+
+
         </ul>
+        <span class="navbar-text">
+          <h6 class="px-2"> CART (0) </h6>
+
+        </span>
+        <form class="form-inline my-2 my-lg-0">
+
+          <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">LOGOUT</button>
+        </form>
       </div>
     </nav>
-    <img alt="Vue logo" style="height: 50px;" src="../assets/logo.png">
-    <HelloWorld msg="Vicsystems Invoice Application" />
+    <div class="container">
+      <img alt="Vue logo" style="height: 50px;" src="../assets/logo.png">
+      <HelloWorld msg="Vicsystems Invoice Application" />
+    </div>
   </div>
 </template>
 
