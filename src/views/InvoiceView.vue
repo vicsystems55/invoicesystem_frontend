@@ -22,7 +22,7 @@
                 </span>
                 <form class="form-inline my-2 my-lg-0">
 
-                    <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">LOGOUT</button>
+                    <button class="btn btn-outline-secondary my-2 my-sm-0" @click="logout()">LOGOUT</button>
                 </form>
             </div>
         </nav>
@@ -58,7 +58,9 @@
                         <td>{{ invoiceLine.products.name }}</td>
                         <td>{{ invoiceLine.products.description }}</td>
                         <td>NGN {{ invoiceLine.products.price }}</td>
-                        <td>{{ invoiceLine.qty }}</td>
+                        <td>
+                            <input type="number" class="form-control form-control-sm" :value="invoiceLine.qty">
+                        </td>
                         <td>NGN {{ invoiceLine.total_amount }}</td>
                         <!-- <td>
                             <button class="btn btn-primary btn-sm">update</button>
@@ -159,6 +161,16 @@ export default {
         },
         viewCart(){
             this.$router.push('/invoice');
+        },
+
+        logout(){
+            localStorage.removeItem('invoice_code')
+            localStorage.removeItem('user_token')
+            localStorage.removeItem('user_data')
+            localStorage.removeItem('user_role')
+
+
+
         }
     },
 }
