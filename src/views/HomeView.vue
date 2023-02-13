@@ -20,13 +20,13 @@
           <h6 class="px-2"> CART (0) </h6>
 
         </span>
-        <form class="form-inline my-2 my-lg-0">
+        <div class="form-inline my-2 my-lg-0">
 
           <button class="btn btn-outline-secondary my-2 my-sm-0" @click="logout()">LOGOUT</button>
-        </form>
+        </div>
       </div>
     </nav>
-    <div class="container">
+    <div class="container-fluid">
       <img alt="Vue logo" style="height: 50px;" src="../assets/logo.png">
       <HelloWorld msg="Vicsystems Invoice Application" />
     </div>
@@ -50,7 +50,7 @@ export default {
             localStorage.removeItem('user_data')
             localStorage.removeItem('user_role')
 
-            return this.$route.push('/login');
+            return this.$router.push('/login');
 
 
 

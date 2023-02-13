@@ -1,11 +1,29 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,<br>
-      check out the
-      <a href="https://cli.vuejs.org" target="_blank" rel="noopener"> documentation</a>.
-    </p>
+    <h6 class="mt-2">Latest members</h6>
+    <hr>
+<marquee behavior="" direction="">
+
+  <div class="d-flex justify-content-start">
+  
+
+      <div v-for="user in users" :key="user.id"  class="">
+        
+        <div style="width: 320px;"  class="card card-body shadow m-2">
+          <h6>
+    
+            {{user.name}}</h6>
+          <p>
+            {{ user.created_at }}
+  
+  
+          </p>
+        </div>
+      </div>
+
+  </div>
+</marquee>
+ 
 
 
   </div>
@@ -14,26 +32,38 @@
 <script>
 export default {
   name: 'HelloWorld',
+  data() {
+    return {
+      users: []
+    }
+  },
   props: {
     msg: String
-  }
+  },
+  mounted() {
+    this.getUsers()
+  },
+  methods: {
+    getUsers() {
+      this.axios({
+        url: process.env.VUE_APP_URL + '/api/v1/users',
+        method: 'get',
+
+      }).then((response) => {
+        this.users = response.data
+
+        console.log(response)
+
+      }).catch((error) => {
+
+        this.loading = false
+        console.log(error)
+      })
+
+    }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+
