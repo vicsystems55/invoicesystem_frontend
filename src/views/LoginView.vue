@@ -1,12 +1,19 @@
 <template>
 
-    <div class="col-md-3 mx-auto mt-5">
+    <div style="max-width: 330px;" class=" mx-auto mt-5">
         <div class="text-center">
             <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
         </div>
         <h3 class="text-center py-5">Login</h3>
         <div class="card">
             <div class="card-body">
+                <div v-show="error" class="c">
+
+                    <div class="alert alert-danger" role="alert">
+                        {{ error_msg }}
+                    </div>
+
+                </div>
                 <div class="form-group">
                     <input type="text" class="form-control" placeholder="Enter email" v-model="email">
                 </div>
@@ -16,7 +23,17 @@
                 </div>
 
                 <div class="form-group">
-                    <button @click="login()" class="btn btn-primary btn-block btn-sm">{{loading?'Please wait...':'Login' }}</button>
+                    <button @click="login()" class="btn btn-primary btn-block btn-sm">{{
+                        loading?'Please wait...': 'Login'
+                    }}</button>
+                </div>
+
+                <div class="form-group">
+                    <h6  class="btn">
+                        <router-link :to="'/register'">
+                        Create an account
+                    </router-link>
+                    </h6>
                 </div>
             </div>
         </div>
@@ -31,7 +48,10 @@ export default {
         return {
             email: '',
             password: '',
-            loading: false
+            loading: false,
+            error: false,
+
+            error_msg: ''
         }
     },
 
@@ -61,8 +81,12 @@ export default {
 
             }).catch((error) => {
 
-                this.loading = false
-                console.log(error)
+                this.error = true
+
+                this.error_msg = error.response.data.message
+
+                console.log(error.response)
+
             })
 
         }

@@ -1,6 +1,6 @@
 <template>
 
-    <div class="col-md-3 mx-auto mt-5">
+    <div style="max-width: 330px;" class="mx-auto mt-5">
         <div class="text-center">
             <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
         </div>
@@ -34,6 +34,14 @@
 
                 <div class="form-group">
                     <button @click="register()" class="btn btn-primary btn-block btn-sm">{{loading?'Please wait...':'Register' }}</button>
+                </div>
+
+                <div class="form-group">
+                    <h6  class="btn">
+                        <router-link :to="'/login'">
+                        Login
+                    </router-link>
+                    </h6>
                 </div>
             </div>
         </div>

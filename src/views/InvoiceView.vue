@@ -169,6 +169,8 @@ export default {
             localStorage.removeItem('user_data')
             localStorage.removeItem('user_role')
 
+            return this.$route.push('/login');
+
 
 
         }

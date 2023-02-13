@@ -22,7 +22,7 @@
         </span>
         <form class="form-inline my-2 my-lg-0">
 
-          <button class="btn btn-outline-secondary my-2 my-sm-0" type="submit">LOGOUT</button>
+          <button class="btn btn-outline-secondary my-2 my-sm-0" @click="logout()">LOGOUT</button>
         </form>
       </div>
     </nav>
@@ -41,6 +41,20 @@ export default {
   name: 'HomeView',
   components: {
     HelloWorld
-  }
+  },
+
+  methods: {
+    logout(){
+            localStorage.removeItem('invoice_code')
+            localStorage.removeItem('user_token')
+            localStorage.removeItem('user_data')
+            localStorage.removeItem('user_role')
+
+            return this.$route.push('/login');
+
+
+
+        }
+  },
 }
 </script>
