@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h6 class="mt-2">Latest members</h6>
+    <h6 class="mt-2">Latest members <router-link :to="'/register'">Create an account</router-link></h6>
     <hr>
 <marquee behavior="" direction="">
 
