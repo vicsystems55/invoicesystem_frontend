@@ -38,7 +38,7 @@
       
         <div v-if="products.length != 0" class="row">
             
-            <div v-for="product in products" :key="product.id" class="col-lg-4 col-md-3  mx-auto">
+            <div v-for="product in products" :key="product.id" class="col-lg-3 col-md-4  mx-auto">
                 <div class="card m-3 shadow" style="min-width: 16rem; height: 350px;">
                     <img :src="product.img_url" style="height: 230px; object-fit: cover; object-position: top center; " class="card-img-top" alt="...">
                     <div class="card-body">
