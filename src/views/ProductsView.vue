@@ -1,6 +1,6 @@
 <template>
 <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Invoice System</a>
+  <a class="navbar-brand" href="#">Ednascorer Store</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -9,7 +9,7 @@
     <ul class="navbar-nav mr-auto ">
 
         <li class="nav-item">
-            <router-link class="nav-link" :to="'/products'">Products</router-link>
+            <router-link class="nav-link" :to="'/products'">Shop</router-link>
           </li>
  
       
@@ -43,6 +43,8 @@
                     <img :src="product.img_url" style="height: 230px; object-fit: cover; object-position: top center; " class="card-img-top" alt="...">
                     <div class="card-body">
                         <h6 class="card-title">{{ product.name }}</h6>
+                        <p class="card-title text-success"><b>NGN {{ product.price }}</b></p>
+
                        
                     </div>
                     <div class="card-footer">
