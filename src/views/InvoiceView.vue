@@ -17,7 +17,7 @@
 
                 </ul>
                 <span class="navbar-text">
-                    <h6 class="px-2 btn" @click="viewCart()"> CART ({{cartCount}}) </h6>
+                    <h6 class="px-2 btn" @click="viewCart()"> CART ({{ cartCount }}) </h6>
 
                 </span>
                 <form class="form-inline my-2 my-lg-0">
@@ -27,90 +27,175 @@
             </div>
         </nav>
         <div class="p-3"></div>
-      <div class="container mt-5">
-        <div class="card">
-        <div class="card-body">
-            <div class="container-fluid">
-            <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
+        <div class="container mt-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
 
-            <h3 class="py-5">Vicsystems Technologies Ltd.</h3>
-        </div>
+                        <h3 class="py-5">Vicsystems Technologies Ltd.</h3>
+                    </div>
 
-        <div class="container-fluid mt-5 table-responsive">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>#</th>
+                    <div class="container-fluid mt-5 table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
 
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th>Unit Price</th>
-                        <th>QTY</th>
-                        <th>Total</th>
-                        <th></th>
-                    </tr>
-                </thead>
+                                    <th>Name</th>
+                                    <th>Description</th>
+                                    <th>Unit Price</th>
+                                    <th>QTY</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
 
-                <tbody>
+                            <tbody>
 
-                    <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
-                        <td>{{ key + 1 }}</td>
-                        <td>{{ invoiceLine.products.name }}</td>
-                        <td>{{ invoiceLine.products.description }}</td>
-                        <td>NGN {{ invoiceLine.products.price }}</td>
-                        <td>
-                            <input type="number" class="form-control form-control-sm" :value="invoiceLine.qty">
-                        </td>
-                        <td>NGN {{ invoiceLine.total_amount }}</td>
-                        <!-- <td>
+                                <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
+                                    <td>{{ key + 1 }}</td>
+                                    <td>{{ invoiceLine.products.name }}</td>
+                                    <td>{{ invoiceLine.products.description }}</td>
+                                    <td style="width: 120px;">NGN {{ invoiceLine.products.price }}</td>
+                                    <td>
+                                        <div class="d-flex justify-content-around">
+                                            <div class="c ">
+
+                                                <button class="btn btn-sm btn-primary rounded-circl border "
+                                                    style="width: 40px;">-</button>
+                                            </div>
+                                            <div class="" style="width: 50px;">
+
+                                                <input type="text" class="form-control form-control-sm text-center"
+                                                    :value="invoiceLine.qty">
+                                            </div>
+                                            <div class="c ">
+
+                                                <button class="btn btn-sm btn-primary rounded-circl border "
+                                                    style="width: 40px;">+</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td style="width: 120px;">NGN {{ invoiceLine.total_amount }}</td>
+                                    <!-- <td>
                             <button class="btn btn-primary btn-sm">update</button>
                         </td> -->
-                    </tr>
-                </tbody>
+                                </tr>
+                            </tbody>
 
-                <thead>
+                            <thead>
 
-                    <tr>
-                        <td></td>
-                        <td></td>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
 
-                        <td></td>
+                                    <td></td>
 
-                        <td></td>
+                                    <td></td>
 
-                        <td>Total: </td>
+                                    <td>Total: </td>
 
-                        <th>NGN {{ invoiceData.total_amount }}</th>
-                        <!-- <th></th> -->
+                                    <th>NGN {{ invoiceData.total_amount }}</th>
+                                    <!-- <th></th> -->
 
-                    </tr>
+                                </tr>
 
-                </thead>
+                            </thead>
+
+
+
+                        </table>
+
+                        <hr>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="">Fullname:</label>
+                                <input type="text" class="form-control" placeholder="Fullname">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Phone number</label>
+                                <input type="text" class="form-control" placeholder="Phone">
+                            </div>
+                            <div class="form-group">
+                                <label for="">Address:</label>
+                                <textarea name="" id="" cols="30" rows="5" class="form-control"
+                                    placeholder="Address"></textarea>
+                            </div>
                     
-                    
-               
-            </table>
+
+                            <paystack buttonClass="btn btn-success " buttonText="Proceed to payments"
+
+                                :publicKey="publicKey" :email="email" :amount="amount" :reference="reference"
+                                :onSuccess="onSuccessfulPayment" :onCanel="onCancelledPayment"></paystack>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
-       </div>
-      </div>
 
     </div>
 </template>
 
 <script>
+
+import paystack from "vue3-paystack";
+import { nanoid } from "nanoid"; //if using nanoid
 export default {
+
+    components: {
+        paystack,
+    },
+
+
+
     data() {
         return {
             invoiceData: '',
-            cartCount: 0
+            cartCount: 0,
+            qty: 1,
+            value: 1,
+
+            publicKey: 'pk_test_81d0ea622e4cb15731a72ac7025af87867e6495a',
+            amount: 1000, //Expressed in lowest demonitation, so 1000kobo is equivalent to 10Naira
+            email: 'somteacodes@gmail.com',
+            firstname: 'Somtea', //optional field remember to pass as a prop of firstname if needed
+            lastname: 'Codes' //optional field remember to pass as a prop of lastname if needed
+
         }
     },
     mounted() {
         this.getInvoiceDetails()
     },
 
+    computed: {
+        reference: function () {
+            // if using nanoid to generate randomRef
+            // comment this out if not using nano id
+            return nanoid(15);
+
+            //   you can use plain JS to generate random ref ID, just uncomment this section if you
+            /*
+                let randomRef = "";
+                let characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        
+                for( let i=0; i < 15; i++ )
+                  text += characters.charAt(Math.floor(Math.random() * characters.length));
+        
+                return randomRef;
+        
+                */
+        },
+    },
+
     methods: {
+
+        onSuccessfulPayment: function (response) {
+            console.log(response);
+        },
+        onCancelledPayment: function () {
+            console.log("Payment cancelled by user");
+        },
         getInvoiceDetails() {
 
 
@@ -133,6 +218,7 @@ export default {
 
                     this.invoiceData = response.data
                     this.cartCount = this.invoiceData.invoice_items.length
+                    this.amount = this.invoiceData.total_amount * 100
 
 
                     console.log(response)
@@ -159,11 +245,11 @@ export default {
             }
 
         },
-        viewCart(){
+        viewCart() {
             this.$router.push('/invoice');
         },
 
-        logout(){
+        logout() {
             localStorage.removeItem('invoice_code')
             localStorage.removeItem('user_token')
             localStorage.removeItem('user_data')
