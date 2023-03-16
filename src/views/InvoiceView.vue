@@ -62,17 +62,17 @@
                                         <div class="d-flex justify-content-around">
                                             <div class="c ">
 
-                                                <button class="btn btn-sm btn-primary rounded-circl border "
+                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id)" class="btn btn-sm btn-primary rounded-circl border "
                                                     style="width: 40px;">-</button>
                                             </div>
                                             <div class="" style="width: 50px;">
 
-                                                <input type="text" class="form-control form-control-sm text-center"
+                                                <input type="text" :id="'newQty'+invoiceLine.id" class="form-control form-control-sm text-center"
                                                     :value="invoiceLine.qty">
                                             </div>
                                             <div class="c ">
 
-                                                <button class="btn btn-sm btn-primary rounded-circl border "
+                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id)" class="btn btn-sm btn-primary rounded-circl border "
                                                     style="width: 40px;">+</button>
                                             </div>
                                         </div>
@@ -156,6 +156,8 @@ export default {
             qty: 1,
             value: 1,
 
+        
+
             publicKey: 'pk_test_81d0ea622e4cb15731a72ac7025af87867e6495a',
             amount: 1000, //Expressed in lowest demonitation, so 1000kobo is equivalent to 10Naira
             email: 'somteacodes@gmail.com',
@@ -197,6 +199,7 @@ export default {
             console.log("Payment cancelled by user");
         },
         getInvoiceDetails() {
+
 
 
             if (localStorage.getItem('invoice_code')) {
@@ -259,6 +262,52 @@ export default {
 
 
 
+        },
+
+        updateInvoiceLine(id, qty){
+
+          
+
+            // if(this.newQty == 0){
+            //     this.newQty = qty 
+
+            // }
+
+            // this.newQty += 1
+
+            var newQty = parseInt(document.getElementById(qty).value)
+
+           
+
+
+
+            this.axios({
+                url: process.env.VUE_APP_URL + '/api/v1/invoice-lines/'+id,
+                method: 'put',
+                headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                    },
+                data: {
+                    qty: newQty + 1,
+                    invoiceId: this.invoiceData.id
+                }
+
+            })
+            .then((response)=>{
+                console.log(response.data)
+
+                this.invoiceData = response.data.invoiceData
+                    this.amount = this.invoiceData.total_amount * 100
+
+
+            })
+            .catch((err)=>{
+                console.log(err)
+
+            })
         }
     },
 }
