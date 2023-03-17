@@ -253,6 +253,7 @@ export default {
 
         onSuccessfulPayment: function (response) {
             console.log(response);
+            return this.$router.push('/payment-successful');
         },
         onCancelledPayment: function () {
             console.log("Payment cancelled by user");
