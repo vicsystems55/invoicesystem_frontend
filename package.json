@@ -16,6 +16,7 @@
     "vue-router": "^4.0.3",
     "vue3-number-spinner": "^0.0.9",
     "vue3-paystack": "^0.0.5",
+    "numeral": "^2.0.6",
     "vuex": "^4.0.0"
   },
   "devDependencies": {

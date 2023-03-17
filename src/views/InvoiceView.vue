@@ -37,13 +37,13 @@
                     </div>
 
                     <div class="container-fluid mt-5 table-responsive">
-                        <table class="table">
+                        <table class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
 
                                     <th>Name</th>
-                                    <th>Description</th>
+                                  
                                     <th>Unit Price</th>
                                     <th>QTY</th>
                                     <th>Total</th>
@@ -55,15 +55,18 @@
 
                                 <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
                                     <td>{{ key + 1 }}</td>
-                                    <td>{{ invoiceLine.products.name }}</td>
-                                    <td>{{ invoiceLine.products.description }}</td>
-                                    <td style="width: 120px;">NGN {{ invoiceLine.products.price }}</td>
+                                    <td>{{ invoiceLine.products.name }}<br>
+                                        <i>{{ invoiceLine.products.description }}</i>
+                                    
+                                    </td>
+                                    
+                                    <td style="width: 120px;">N {{ format(invoiceLine.products.price) }}</td>
                                     <td>
                                         <div class="d-flex justify-content-around">
                                             <div class="c ">
 
-                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id)" class="btn btn-sm btn-primary rounded-circl border "
-                                                    style="width: 40px;">-</button>
+                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id, 'decrement')" class="btn btn-sm btn-primary rounded-circl border "
+                                                    style="width: 40px;" :id="'btnQty'+invoiceLine.id">-</button>
                                             </div>
                                             <div class="" style="width: 50px;">
 
@@ -72,12 +75,12 @@
                                             </div>
                                             <div class="c ">
 
-                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id)" class="btn btn-sm btn-primary rounded-circl border "
+                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id, 'increment')" class="btn btn-sm btn-primary rounded-circl border "
                                                     style="width: 40px;">+</button>
                                             </div>
                                         </div>
                                     </td>
-                                    <td style="width: 120px;">NGN {{ invoiceLine.total_amount }}</td>
+                                    <td style="width: 120px;">N {{ format(invoiceLine.total_amount) }}</td>
                                     <!-- <td>
                             <button class="btn btn-primary btn-sm">update</button>
                         </td> -->
@@ -90,13 +93,13 @@
                                     <td></td>
                                     <td></td>
 
-                                    <td></td>
+                               
 
                                     <td></td>
 
                                     <td>Total: </td>
 
-                                    <th>NGN {{ invoiceData.total_amount }}</th>
+                                    <th>N {{ format(invoiceData.total_amount) }}</th>
                                     <!-- <th></th> -->
 
                                 </tr>
@@ -137,17 +140,13 @@
     </div>
 </template>
 
-<script>
-
+<script >
+import { onUpdated } from 'vue'
 import paystack from "vue3-paystack";
 import { nanoid } from "nanoid"; //if using nanoid
+
+
 export default {
-
-    components: {
-        paystack,
-    },
-
-
 
     data() {
         return {
@@ -166,9 +165,50 @@ export default {
 
         }
     },
+
+    setup() {
+
+        onUpdated(() => {
+
+            console.log('qty')
+        // this.invoiceData.invoice_items.forEach(element => {
+
+        //     console.log(element)
+            
+        // });
+
+      
+        
+    })
+        
+    },
+
+    components: {
+        paystack,
+    },
+
+
+
     mounted() {
         this.getInvoiceDetails()
     },
+
+    updated() {
+        console.log(this.qty)
+          this.invoiceData.invoice_items.forEach(element => {
+
+            if (document.getElementById('newQty'+element.id).value == 1) {
+                return document.getElementById('btnQty'+element.id).disabled = true
+            }else{
+                return document.getElementById('btnQty'+element.id).disabled = false
+            }
+
+            // console.log(document.getElementById('newQty'+element.id))
+            
+        });
+    },
+
+ 
 
     computed: {
         reference: function () {
@@ -191,6 +231,14 @@ export default {
     },
 
     methods: {
+
+    
+
+        format(value){
+            var numeral = require('numeral');
+
+            return numeral(value).format('0,0.00')
+        },
 
         onSuccessfulPayment: function (response) {
             console.log(response);
@@ -264,7 +312,7 @@ export default {
 
         },
 
-        updateInvoiceLine(id, qty){
+        updateInvoiceLine(id, qty, type){
 
           
 
@@ -276,6 +324,17 @@ export default {
             // this.newQty += 1
 
             var newQty = parseInt(document.getElementById(qty).value)
+
+            if (type == 'decrement') {
+
+                newQty -= 1;
+                
+            }
+            if(type == 'increment'){
+
+                newQty += 1;
+
+            }
 
            
 
@@ -291,7 +350,7 @@ export default {
                         'Authorization': 'Bearer ' + localStorage.getItem('user_token')
                     },
                 data: {
-                    qty: newQty + 1,
+                    qty: newQty,
                     invoiceId: this.invoiceData.id
                 }
 
@@ -308,7 +367,12 @@ export default {
                 console.log(err)
 
             })
-        }
+        },
+
     },
+
+ 
+
+ 
 }
 </script>

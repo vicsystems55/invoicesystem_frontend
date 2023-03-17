@@ -39,11 +39,11 @@
         <div v-if="products.length != 0" class="row">
             
             <div v-for="product in products" :key="product.id" class="col-lg-3 col-md-4  mx-auto">
-                <div class="card m-3 shadow" style="min-width: 16rem; height: 350px;">
+                <div class="card m-3 shadow" style="min-width: 16rem; height: 370px;">
                     <img :src="product.img_url" style="height: 230px; object-fit: cover; object-position: top center; " class="card-img-top" alt="...">
                     <div class="card-body">
                         <h6 class="card-title">{{ product.name }}</h6>
-                        <p class="card-title text-success"><b>NGN {{ product.price }}</b></p>
+                        <p class="card-title text-success"><b>N {{format( product.price) }}</b></p>
 
                        
                     </div>
@@ -224,7 +224,13 @@ export default {
 
 
 
-        }
+        },
+        format(value){
+            var numeral = require('numeral');
+
+            return numeral(value).format('0,0.00')
+        },
+
     },
 
 
