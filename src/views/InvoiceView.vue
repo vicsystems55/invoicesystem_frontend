@@ -1,7 +1,7 @@
 <template>
     <div>
         <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">Invoice System</a>
+            <a class="navbar-brand" href="#">Ednascorner Store</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -33,17 +33,19 @@
                     <div class="container-fluid">
                         <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
 
-                        <h3 class="py-5">Vicsystems Technologies Ltd.</h3>
+                        <h3 class="py-2">Ednascorner Store</h3>
+                        <h6 class="font-italic text-muted">powered by vicSystems Technologies Ltd.</h6>
                     </div>
 
                     <div class="container-fluid mt-5 table-responsive">
                         <table class="table table-striped">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <th>#</th>
 
                                     <th>Name</th>
-                                  
+
                                     <th>Unit Price</th>
                                     <th>QTY</th>
                                     <th>Total</th>
@@ -54,28 +56,37 @@
                             <tbody>
 
                                 <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
+                                    <td>
+                                        <span @click="removeItem(invoiceLine.id, invoiceData.id)" class="btn text-danger"> <i class="fa-solid fa-xmark"></i>
+                                        </span>
+                                    </td>
                                     <td>{{ key + 1 }}</td>
                                     <td>{{ invoiceLine.products.name }}<br>
                                         <i>{{ invoiceLine.products.description }}</i>
-                                    
+
                                     </td>
-                                    
+
                                     <td style="width: 120px;">N {{ format(invoiceLine.products.price) }}</td>
                                     <td>
                                         <div class="d-flex justify-content-around">
                                             <div class="c ">
 
-                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id, 'decrement')" class="btn btn-sm btn-primary rounded-circl border "
-                                                    style="width: 40px;" :id="'btnQty'+invoiceLine.id">-</button>
+                                                <button
+                                                    @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'decrement')"
+                                                    class="btn btn-sm btn-primary rounded-circl border "
+                                                    style="width: 40px;" :id="'btnQty' + invoiceLine.id">-</button>
                                             </div>
                                             <div class="" style="width: 50px;">
 
-                                                <input type="text" :id="'newQty'+invoiceLine.id" class="form-control form-control-sm text-center"
+                                                <input type="text" :id="'newQty' + invoiceLine.id"
+                                                    class="form-control form-control-sm text-center"
                                                     :value="invoiceLine.qty">
                                             </div>
                                             <div class="c ">
 
-                                                <button @click="updateInvoiceLine(invoiceLine.id, 'newQty'+invoiceLine.id, 'increment')" class="btn btn-sm btn-primary rounded-circl border "
+                                                <button
+                                                    @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'increment')"
+                                                    class="btn btn-sm btn-primary rounded-circl border "
                                                     style="width: 40px;">+</button>
                                             </div>
                                         </div>
@@ -92,8 +103,9 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
 
-                               
+
 
                                     <td></td>
 
@@ -125,12 +137,11 @@
                                 <textarea name="" id="" cols="30" rows="5" class="form-control"
                                     placeholder="Address"></textarea>
                             </div>
-                    
 
-                            <paystack buttonClass="btn btn-success " buttonText="Proceed to payments"
 
-                                :publicKey="publicKey" :email="email" :amount="amount" :reference="reference"
-                                :onSuccess="onSuccessfulPayment" :onCanel="onCancelledPayment"></paystack>
+                            <paystack buttonClass="btn btn-success " buttonText="Proceed to payments" :publicKey="publicKey"
+                                :email="email" :amount="amount" :reference="reference" :onSuccess="onSuccessfulPayment"
+                                :onCanel="onCancelledPayment"></paystack>
                         </div>
                     </div>
                 </div>
@@ -155,7 +166,7 @@ export default {
             qty: 1,
             value: 1,
 
-        
+
 
             publicKey: 'pk_test_81d0ea622e4cb15731a72ac7025af87867e6495a',
             amount: 1000, //Expressed in lowest demonitation, so 1000kobo is equivalent to 10Naira
@@ -171,16 +182,16 @@ export default {
         onUpdated(() => {
 
             console.log('qty')
-        // this.invoiceData.invoice_items.forEach(element => {
+            // this.invoiceData.invoice_items.forEach(element => {
 
-        //     console.log(element)
-            
-        // });
+            //     console.log(element)
 
-      
-        
-    })
-        
+            // });
+
+
+
+        })
+
     },
 
     components: {
@@ -195,20 +206,20 @@ export default {
 
     updated() {
         console.log(this.qty)
-          this.invoiceData.invoice_items.forEach(element => {
+        this.invoiceData.invoice_items.forEach(element => {
 
-            if (document.getElementById('newQty'+element.id).value == 1) {
-                return document.getElementById('btnQty'+element.id).disabled = true
-            }else{
-                return document.getElementById('btnQty'+element.id).disabled = false
+            if (document.getElementById('newQty' + element.id).value == 1) {
+                return document.getElementById('btnQty' + element.id).disabled = true
+            } else {
+                return document.getElementById('btnQty' + element.id).disabled = false
             }
 
             // console.log(document.getElementById('newQty'+element.id))
-            
+
         });
     },
 
- 
+
 
     computed: {
         reference: function () {
@@ -232,9 +243,9 @@ export default {
 
     methods: {
 
-    
 
-        format(value){
+
+        format(value) {
             var numeral = require('numeral');
 
             return numeral(value).format('0,0.00')
@@ -301,7 +312,7 @@ export default {
         },
 
         logout() {
-            localStorage.removeItem('invoice_code')
+            // localStorage.removeItem('invoice_code')
             localStorage.removeItem('user_token')
             localStorage.removeItem('user_data')
             localStorage.removeItem('user_role')
@@ -312,9 +323,71 @@ export default {
 
         },
 
-        updateInvoiceLine(id, qty, type){
+        getJustInvoice(){
+   
+            this.axios({
+                    url: process.env.VUE_APP_URL + '/api/v1/invoices/' + localStorage.getItem('invoice_code'),
+                    method: 'get',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                    },
+                    data: {
+                        invoice_code: localStorage.getItem('invoice_code')
+                    }
 
-          
+                }).then((response) => {
+
+                    this.invoiceData = response.data
+                    this.cartCount = this.invoiceData.invoice_items.length
+                    this.amount = this.invoiceData.total_amount * 100
+
+
+                    console.log(response)
+
+
+
+
+                }).catch((error) => {
+
+                    this.loading = false
+                    console.log(error)
+                })
+        },
+
+        removeItem(invoiceItemId, invoiceId) {
+
+            this.axios({
+                url: process.env.VUE_APP_URL + '/api/v1/invoice-lines/'+invoiceItemId,
+                method: 'delete',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                },
+                data: {
+                    invoiceId: invoiceId
+                },
+            })
+                .then((response) => {
+                    console.log(response)
+
+                    return this.getJustInvoice()
+
+       
+                })
+                .catch((response) => {
+                    console.log(response)
+                })
+
+        },
+
+        updateInvoiceLine(id, qty, type) {
+
+
 
             // if(this.newQty == 0){
             //     this.newQty = qty 
@@ -328,51 +401,51 @@ export default {
             if (type == 'decrement') {
 
                 newQty -= 1;
-                
+
             }
-            if(type == 'increment'){
+            if (type == 'increment') {
 
                 newQty += 1;
 
             }
 
-           
+
 
 
 
             this.axios({
-                url: process.env.VUE_APP_URL + '/api/v1/invoice-lines/'+id,
+                url: process.env.VUE_APP_URL + '/api/v1/invoice-lines/' + id,
                 method: 'put',
                 headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('user_token')
-                    },
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                },
                 data: {
                     qty: newQty,
                     invoiceId: this.invoiceData.id
                 }
 
             })
-            .then((response)=>{
-                console.log(response.data)
+                .then((response) => {
+                    console.log(response.data)
 
-                this.invoiceData = response.data.invoiceData
+                    this.invoiceData = response.data.invoiceData
                     this.amount = this.invoiceData.total_amount * 100
 
 
-            })
-            .catch((err)=>{
-                console.log(err)
+                })
+                .catch((err) => {
+                    console.log(err)
 
-            })
+                })
         },
 
     },
 
- 
 
- 
+
+
 }
 </script>

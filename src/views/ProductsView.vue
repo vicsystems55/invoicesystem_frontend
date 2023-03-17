@@ -215,7 +215,7 @@ export default {
         },
 
         logout(){
-            localStorage.removeItem('invoice_code')
+            // localStorage.removeItem('invoice_code')
             localStorage.removeItem('user_token')
             localStorage.removeItem('user_data')
             localStorage.removeItem('user_role')

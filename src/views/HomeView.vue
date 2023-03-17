@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">Invoice System</a>
+      <a class="navbar-brand" href="#">Ednascorner Store</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -17,7 +17,7 @@
 
         </ul>
         <span class="navbar-text">
-          <h6 class="px-2"> CART (0) </h6>
+          <h6 class="px-2 btn" @click="viewCart()"> CART ({{cartCount}}) </h6>
 
         </span>
         <div class="form-inline my-2 my-lg-0">
@@ -35,11 +35,13 @@
       <hr>
       <div v-if="products.length != 0" class="row">
             
-            <div v-for="product in products" :key="product.id" class="col-lg-3 col-md-4  mx-auto">
-                <div class="card m-3 shadow" style="min-width: 16rem; height: 350px;">
+        <div v-for="product in products" :key="product.id" class="col-lg-3 col-md-4  mx-auto">
+                <div class="card m-3 shadow" style="min-width: 16rem; height: 370px;">
                     <img :src="product.img_url" style="height: 230px; object-fit: cover; object-position: top center; " class="card-img-top" alt="...">
                     <div class="card-body">
                         <h6 class="card-title">{{ product.name }}</h6>
+                        <p class="card-title text-success"><b>N {{format( product.price) }}</b></p>
+
                        
                     </div>
                     <div class="card-footer">
@@ -71,6 +73,7 @@ export default {
   data() {
     return {
     products: [],
+    cartCount: 0,
       
     }
   },
@@ -150,6 +153,9 @@ export default {
      }
 
  },
+ viewCart(){
+            this.$router.push('/invoice');
+        },
 
         getProducts() {
 
@@ -175,7 +181,7 @@ export default {
 
         },
     logout(){
-            localStorage.removeItem('invoice_code')
+            // localStorage.removeItem('invoice_code')
             localStorage.removeItem('user_token')
             localStorage.removeItem('user_data')
             localStorage.removeItem('user_role')
@@ -186,9 +192,56 @@ export default {
 
         },
 
-        addProduct(){
-          this.$router.push('/login');
-        }
+
+        addProduct(product_id){
+
+          if (localStorage.getItem('user_token')) {
+
+            this.axios({
+            url: process.env.VUE_APP_URL + '/api/v1/invoice-lines',
+            method: 'post',
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+                'Content-type': 'application/json',
+                'Accept': 'application/json',
+                'Authorization': 'Bearer ' +localStorage.getItem('user_token')
+            },
+            data:{
+                invoice_code: localStorage.getItem('invoice_code'),
+                product_id : product_id
+            }
+          
+            }).then((response) => {
+              alert('Product Added to cart!!')
+
+              this.getInvoiceDetails()
+
+                console.log(response)
+
+            }).catch((error) => {
+
+                this.loading = false
+                console.log(error)
+            })
+            
+          } else {
+
+            return this.$router.push('/login');
+            
+          }
+
+
+
+
+
+
+      },
+
+      format(value){
+            var numeral = require('numeral');
+
+            return numeral(value).format('0,0.00')
+        },
   },
 }
 </script>
