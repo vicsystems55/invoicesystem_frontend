@@ -27,7 +27,7 @@
             </div>
         </nav>
         <div class="p-3"></div>
-        <div class="container mt-5">
+        <div class="container-fluid mt-5">
             <div class="card">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -37,37 +37,22 @@
                         <h6 class="font-italic text-muted">powered by vicSystems Technologies Ltd.</h6>
                     </div>
 
-                    <div class="container-fluid mt-5 table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>#</th>
 
-                                    <th>Name</th>
+                    <div class=" container mt-5 table-responsive">
 
-                                    <th>Unit Price</th>
-                                    <th>QTY</th>
-                                    <th>Total</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-
-                            <tbody>
-
-                                <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
-                                    <td>
-                                        <span @click="removeItem(invoiceLine.id, invoiceData.id)" class="btn text-danger"> <i class="fa-solid fa-xmark"></i>
+                        <div v-for="invoiceLine in invoiceData.invoice_items" :key="invoiceLine.id" class="card mb-2 shadow d-block d-md-none">
+                            <div style="font-size: 85%;" class="card-bod p-2">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <span @click="removeItem(invoiceLine.id, invoiceData.id)" class="btn text-danger "> <i class="fa-solid fa-xmark"></i>
                                         </span>
-                                    </td>
-                                    <td>{{ key + 1 }}</td>
-                                    <td>{{ invoiceLine.products.name }}<br>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="font-weight-bold">{{ invoiceLine.products.name }}</span>
+                                        <br>
                                         <i>{{ invoiceLine.products.description }}</i>
-
-                                    </td>
-
-                                    <td style="width: 120px;">N {{ format(invoiceLine.products.price) }}</td>
-                                    <td>
+                                    </div>
+                                    <div class="col-5">
                                         <div class="d-flex justify-content-around">
                                             <div class="c ">
 
@@ -90,37 +75,101 @@
                                                     style="width: 40px;">+</button>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td style="width: 120px;">N {{ format(invoiceLine.total_amount) }}</td>
-                                    <!-- <td>
-                            <button class="btn btn-primary btn-sm">update</button>
-                        </td> -->
-                                </tr>
-                            </tbody>
+                                        <h6 class="mt-2 float-right"> N {{ format(invoiceLine.total_amount) }}</h6>
+                                       
+                                    </div>
+                                </div>
+                              
+                               
 
-                            <thead>
+                            </div>
+                        </div>
+                        <div class="c d-none d-md-block">
 
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-
-
-
-                                    <td></td>
-
-                                    <td>Total: </td>
-
-                                    <th>N {{ format(invoiceData.total_amount) }}</th>
-                                    <!-- <th></th> -->
-
-                                </tr>
-
-                            </thead>
-
-
-
-                        </table>
+                            <table class=" table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>#</th>
+    
+                                        <th>Name</th>
+    
+                                        <th>Unit Price</th>
+                                        <th>QTY</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+    
+                                <tbody>
+    
+                                    <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
+                                        <td>
+                                            <span @click="removeItem(invoiceLine.id, invoiceData.id)" class="btn text-danger"> <i class="fa-solid fa-xmark"></i>
+                                            </span>
+                                        </td>
+                                        <td>{{ key + 1 }}</td>
+                                        <td>{{ invoiceLine.products.name }}<br>
+                                            <i>{{ invoiceLine.products.description }}</i>
+    
+                                        </td>
+    
+                                        <td style="width: 120px;">N {{ format(invoiceLine.products.price) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-around">
+                                                <div class="c ">
+    
+                                                    <button
+                                                        @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'decrement')"
+                                                        class="btn btn-sm btn-primary rounded-circl border "
+                                                        style="width: 40px;" :id="'btnQty' + invoiceLine.id">-</button>
+                                                </div>
+                                                <div class="" style="width: 50px;">
+    
+                                                    <input type="text" :id="'newQty' + invoiceLine.id"
+                                                        class="form-control form-control-sm text-center"
+                                                        :value="invoiceLine.qty">
+                                                </div>
+                                                <div class="c ">
+    
+                                                    <button
+                                                        @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'increment')"
+                                                        class="btn btn-sm btn-primary rounded-circl border "
+                                                        style="width: 40px;">+</button>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td style="width: 120px;">N {{ format(invoiceLine.total_amount) }}</td>
+                                        <!-- <td>
+                                <button class="btn btn-primary btn-sm">update</button>
+                            </td> -->
+                                    </tr>
+                                </tbody>
+    
+                                <thead>
+    
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+    
+    
+    
+                                        <td></td>
+    
+                                        <td>Total: </td>
+    
+                                        <th>N {{ format(invoiceData.total_amount) }}</th>
+                                        <!-- <th></th> -->
+    
+                                    </tr>
+    
+                                </thead>
+    
+    
+    
+                            </table>
+                        </div>
 
                         <hr>
                         <div class="col-md-6">
