@@ -78,6 +78,78 @@ export default {
     this.getProducts()
   },
   methods: {
+    getInvoiceDetails(){
+     
+
+     if(localStorage.getItem('invoice_code')){
+         console.log('ye invoice')
+         this.axios({
+             url: process.env.VUE_APP_URL + '/api/v1/invoices/' + localStorage.getItem('invoice_code'),
+             method: 'get',
+             headers: {
+                 'Access-Control-Allow-Origin': '*',
+                 'Content-type': 'application/json',
+                 'Accept': 'application/json',
+                 'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+             },
+             data: {
+                 invoice_code: localStorage.getItem('invoice_code')
+             }
+
+         }).then((response) => {
+
+             this.invoiceData = response.data
+             this.cartCount = this.invoiceData.invoice_items.length
+
+
+             console.log(response)
+
+
+
+
+         }).catch((error) => {
+
+             this.loading = false
+             console.log(error)
+         })
+
+     }else{
+
+         localStorage.setItem('invoice_code', Date.now())
+
+         this.axios({
+         url: process.env.VUE_APP_URL + '/api/v1/invoices',
+         method: 'post',
+         headers: {
+             'Access-Control-Allow-Origin': '*',
+             'Content-type': 'application/json',
+             'Accept': 'application/json',
+             'Authorization': 'Bearer ' +localStorage.getItem('user_token')
+         },
+         data:{
+             invoice_code: localStorage.getItem('invoice_code')
+         }
+        
+     }).then((response) => {
+       
+
+         console.log(response)
+
+         
+    
+     }).catch((error) => {
+
+         this.loading = false
+         console.log(error)
+     })
+
+
+
+       
+
+     }
+
+ },
 
         getProducts() {
 
