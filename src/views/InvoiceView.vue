@@ -29,7 +29,7 @@
         <div class="p-3"></div>
         <div class="container-fluid mt-5">
             <div class="card">
-                <div class="card-body">
+                <div class="card-bod">
                     <div class="container-fluid">
                         <img alt="Vue logo" style="height: 50px;" class="text-center" src="../assets/logo.png">
 
@@ -38,7 +38,7 @@
                     </div>
 
 
-                    <div class=" container mt-5 table-responsive">
+                    <div class=" container-fluid mt-5 table-responsive">
 
                         <div class="c d-none d-md-block">
 
@@ -159,7 +159,7 @@
                                             </div>
                                             <div class="c ">
 
-                                                
+
 
                                                 <button
                                                     @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'increment')"
@@ -318,6 +318,28 @@ export default {
 
         onSuccessfulPayment: function (response) {
             console.log(response);
+
+            this.axios({
+                url: process.env.VUE_APP_URL +'/api/v1/product-order',
+                method: 'post',
+                data:{
+                    reference: response.reference,
+                    invoiceCode: localStorage.getItem('invoice_code')
+                },
+                headers:{
+                    'Authorization': 'Bearer '+localStorage.getItem('user_token'),
+                }
+            })
+            .then((response)=>{
+
+                console.log(response)
+
+            })
+            .catch((response)=>{
+
+                console.log(response)
+
+            })
 
             localStorage.removeItem('invoice_code')
 
