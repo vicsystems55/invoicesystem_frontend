@@ -17,7 +17,7 @@
 
         </ul>
         <span class="navbar-text">
-          <h6 class="px-2 btn" @click="viewCart()"> CART ({{cartCount}}) </h6>
+          <h6 class="px-2 btn" @click="viewCart()"> <i class="fa-solid fa-cart-shopping"></i> ({{cartCount}}) </h6>
 
         </span>
         <div class="form-inline my-2 my-lg-0">

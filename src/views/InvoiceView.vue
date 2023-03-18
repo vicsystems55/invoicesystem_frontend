@@ -40,20 +40,40 @@
 
                     <div class=" container mt-5 table-responsive">
 
-                        <div v-for="invoiceLine in invoiceData.invoice_items" :key="invoiceLine.id" class="card mb-2 shadow d-block d-md-none">
-                            <div style="font-size: 85%;" class="card-bod p-2">
-                                <div class="row">
-                                    <div class="col-2">
-                                        <span @click="removeItem(invoiceLine.id, invoiceData.id)" class="btn text-danger "> <i class="fa-solid fa-xmark"></i>
-                                        </span>
-                                    </div>
-                                    <div class="col-5">
-                                        <span class="font-weight-bold">{{ invoiceLine.products.name }}</span>
-                                        <br>
-                                        <i>{{ invoiceLine.products.description }}</i>
-                                    </div>
-                                    <div class="col-5">
-                                        <div class="d-flex justify-content-around">
+                        <div class="c d-none d-md-block">
+
+                            <table class=" table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>#</th>
+
+                                        <th>Name</th>
+
+                                        <th>Unit Price</th>
+                                        <th>QTY</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
+                                        <td>
+                                            <span @click="removeItem(invoiceLine.id, invoiceData.id)"
+                                                class="btn text-danger"> <i class="fa-solid fa-xmark"></i>
+                                            </span>
+                                        </td>
+                                        <td>{{ key + 1 }}</td>
+                                        <td>{{ invoiceLine.products.name }}<br>
+                                            <i>{{ invoiceLine.products.description }}</i>
+
+                                        </td>
+
+                                        <td style="width: 120px;">N {{ format(invoiceLine.products.price) }}</td>
+                                        <td>
+                                            <div class="d-flex justify-content-around">
                                             <div class="c ">
 
                                                 <button
@@ -75,101 +95,86 @@
                                                     style="width: 40px;">+</button>
                                             </div>
                                         </div>
-                                        <h6 class="mt-2 float-right"> N {{ format(invoiceLine.total_amount) }}</h6>
-                                       
-                                    </div>
-                                </div>
-                              
-                               
-
-                            </div>
-                        </div>
-                        <div class="c d-none d-md-block">
-
-                            <table class=" table table-striped">
-                                <thead>
-                                    <tr>
-                                        <th></th>
-                                        <th>#</th>
-    
-                                        <th>Name</th>
-    
-                                        <th>Unit Price</th>
-                                        <th>QTY</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-    
-                                <tbody>
-    
-                                    <tr v-for="invoiceLine, key in invoiceData.invoice_items" :key="invoiceLine.id">
-                                        <td>
-                                            <span @click="removeItem(invoiceLine.id, invoiceData.id)" class="btn text-danger"> <i class="fa-solid fa-xmark"></i>
-                                            </span>
-                                        </td>
-                                        <td>{{ key + 1 }}</td>
-                                        <td>{{ invoiceLine.products.name }}<br>
-                                            <i>{{ invoiceLine.products.description }}</i>
-    
-                                        </td>
-    
-                                        <td style="width: 120px;">N {{ format(invoiceLine.products.price) }}</td>
-                                        <td>
-                                            <div class="d-flex justify-content-around">
-                                                <div class="c ">
-    
-                                                    <button
-                                                        @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'decrement')"
-                                                        class="btn btn-sm btn-primary rounded-circl border "
-                                                        style="width: 40px;" :id="'btnQty' + invoiceLine.id">-</button>
-                                                </div>
-                                                <div class="" style="width: 50px;">
-    
-                                                    <input type="text" :id="'newQty' + invoiceLine.id"
-                                                        class="form-control form-control-sm text-center"
-                                                        :value="invoiceLine.qty">
-                                                </div>
-                                                <div class="c ">
-    
-                                                    <button
-                                                        @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'increment')"
-                                                        class="btn btn-sm btn-primary rounded-circl border "
-                                                        style="width: 40px;">+</button>
-                                                </div>
-                                            </div>
                                         </td>
                                         <td style="width: 120px;">N {{ format(invoiceLine.total_amount) }}</td>
                                         <!-- <td>
-                                <button class="btn btn-primary btn-sm">update</button>
-                            </td> -->
+                            <button class="btn btn-primary btn-sm">update</button>
+                        </td> -->
                                     </tr>
                                 </tbody>
-    
+
                                 <thead>
-    
+
                                     <tr>
                                         <td></td>
                                         <td></td>
                                         <td></td>
-    
-    
-    
+
+
+
                                         <td></td>
-    
+
                                         <td>Total: </td>
-    
+
                                         <th>N {{ format(invoiceData.total_amount) }}</th>
                                         <!-- <th></th> -->
-    
+
                                     </tr>
-    
+
                                 </thead>
-    
-    
-    
+
+
+
                             </table>
                         </div>
+
+                        <div v-for="invoiceLine in invoiceData.invoice_items" :key="invoiceLine.id"
+                            class="card mb-2 shadow d-block d-md-none">
+                            <div style="font-size: 85%;" class="card-bod p-2">
+                                <div class="row">
+                                    <div class="col-2">
+                                        <span @click="removeItem(invoiceLine.id, invoiceData.id)" class="btn text-danger ">
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </span>
+                                    </div>
+                                    <div class="col-5">
+                                        <span class="font-weight-bold">{{ invoiceLine.products.name }}</span>
+                                        <br>
+                                        <i>{{ invoiceLine.products.description }}</i>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="d-flex justify-content-around">
+                                            <div class="c ">
+
+                                                <button
+                                                    @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'decrement')"
+                                                    class="btn btn-sm btn-primary rounded-circl border "
+                                                    style="width: 40px;" :id="'btn2Qty' + invoiceLine.id">-</button>
+                                            </div>
+                                            <div class="" style="width: 50px;">
+
+                                                <input type="text" :id="'newQty' + invoiceLine.id"
+                                                    class="form-control form-control-sm text-center"
+                                                    :value="invoiceLine.qty">
+                                            </div>
+                                            <div class="c ">
+
+                                                <button
+                                                    @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'increment')"
+                                                    class="btn btn-sm btn-primary rounded-circl border "
+                                                    style="width: 40px;">+</button>
+                                            </div>
+                                        </div>
+                                        <h6 class="mt-2 float-right"> N {{ format(invoiceLine.total_amount) }}</h6>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+
 
                         <hr>
                         <div class="col-md-6">
@@ -258,10 +263,19 @@ export default {
         this.invoiceData.invoice_items.forEach(element => {
 
             if (document.getElementById('newQty' + element.id).value == 1) {
-                return document.getElementById('btnQty' + element.id).disabled = true
+                document.getElementById('btnQty' + element.id).disabled = true
             } else {
-                return document.getElementById('btnQty' + element.id).disabled = false
+                document.getElementById('btnQty' + element.id).disabled = false
             }
+
+            if (document.getElementById('newQty' + element.id).value == 1) {
+                document.getElementById('btn2Qty' + element.id).disabled = true
+            } else {
+                document.getElementById('btn2Qty' + element.id).disabled = false
+            }
+
+
+
 
             // console.log(document.getElementById('newQty'+element.id))
 
@@ -302,6 +316,10 @@ export default {
 
         onSuccessfulPayment: function (response) {
             console.log(response);
+
+            localStorage.removeItem('invoice_code')
+
+
             return this.$router.push('/payment-successful');
         },
         onCancelledPayment: function () {
@@ -373,44 +391,44 @@ export default {
 
         },
 
-        getJustInvoice(){
-   
+        getJustInvoice() {
+
             this.axios({
-                    url: process.env.VUE_APP_URL + '/api/v1/invoices/' + localStorage.getItem('invoice_code'),
-                    method: 'get',
-                    headers: {
-                        'Access-Control-Allow-Origin': '*',
-                        'Content-type': 'application/json',
-                        'Accept': 'application/json',
-                        'Authorization': 'Bearer ' + localStorage.getItem('user_token')
-                    },
-                    data: {
-                        invoice_code: localStorage.getItem('invoice_code')
-                    }
+                url: process.env.VUE_APP_URL + '/api/v1/invoices/' + localStorage.getItem('invoice_code'),
+                method: 'get',
+                headers: {
+                    'Access-Control-Allow-Origin': '*',
+                    'Content-type': 'application/json',
+                    'Accept': 'application/json',
+                    'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                },
+                data: {
+                    invoice_code: localStorage.getItem('invoice_code')
+                }
 
-                }).then((response) => {
+            }).then((response) => {
 
-                    this.invoiceData = response.data
-                    this.cartCount = this.invoiceData.invoice_items.length
-                    this.amount = this.invoiceData.total_amount * 100
-
-
-                    console.log(response)
+                this.invoiceData = response.data
+                this.cartCount = this.invoiceData.invoice_items.length
+                this.amount = this.invoiceData.total_amount * 100
 
 
+                console.log(response)
 
 
-                }).catch((error) => {
 
-                    this.loading = false
-                    console.log(error)
-                })
+
+            }).catch((error) => {
+
+                this.loading = false
+                console.log(error)
+            })
         },
 
         removeItem(invoiceItemId, invoiceId) {
 
             this.axios({
-                url: process.env.VUE_APP_URL + '/api/v1/invoice-lines/'+invoiceItemId,
+                url: process.env.VUE_APP_URL + '/api/v1/invoice-lines/' + invoiceItemId,
                 method: 'delete',
                 headers: {
                     'Access-Control-Allow-Origin': '*',
@@ -427,7 +445,7 @@ export default {
 
                     return this.getJustInvoice()
 
-       
+
                 })
                 .catch((response) => {
                     console.log(response)

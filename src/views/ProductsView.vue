@@ -15,7 +15,7 @@
       
     </ul>
     <span class="navbar-text">
-        <h6 class="px-2 btn" @click="viewCart()"> CART ({{cartCount}}) </h6>
+        <h6 class="px-2 btn" @click="viewCart()"> <i class="fa-solid fa-cart-shopping"></i> ({{cartCount}}) </h6>
      
     </span>
     <form class="form-inline my-2 my-lg-0">
@@ -29,7 +29,7 @@
 
 <div class="container pt-3">
     <div class="frr">
-            <h6>Welcome, </h6>
+            <h6>Welcome, {{ userData.name }}</h6>
         </div>
 </div>
 
@@ -38,7 +38,7 @@
       
         <div v-if="products.length != 0" class="row">
             
-            <div v-for="product in products" :key="product.id" class="col-lg-3 col-md-4  mx-auto">
+            <div v-for="product in products" :key="product.id" class="col-lg-3 col-md-4 col-sm-6  mx-auto">
                 <div class="card m-3 shadow" style="min-width: 16rem; height: 370px;">
                     <img :src="product.img_url" style="height: 230px; object-fit: cover; object-position: top center; " class="card-img-top" alt="...">
                     <div class="card-body">
@@ -70,15 +70,23 @@ export default {
         return {
             products: [],
             cartCount: 0,
-            invoiceData: ''
+            invoiceData: '',
+            userData: []
         }
     },
 
     mounted() {
         this.getProducts()
+        this.getUserData()
     },
 
     methods: {
+
+        getUserData() {
+            this.userData = JSON.parse(localStorage.getItem('user_data'));
+        
+
+        },
         getProducts() {
 
             this.loading = true
