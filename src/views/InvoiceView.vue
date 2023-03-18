@@ -159,6 +159,8 @@
                                             </div>
                                             <div class="c ">
 
+                                                
+
                                                 <button
                                                     @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'increment')"
                                                     class="btn btn-sm btn-primary rounded-circl border "
