@@ -190,14 +190,22 @@
                             </div>
                             <div class="form-group">
                                 <label for="">Address:</label>
-                                <textarea name="" id="" cols="30" rows="5" class="form-control"
+                                <textarea v-model="address" id="" cols="30" rows="5" class="form-control"
                                     placeholder="Address"></textarea>
                             </div>
 
 
                             <paystack buttonClass="btn btn-success " buttonText="Proceed to payments" :publicKey="publicKey"
-                                :email="email" :amount="amount" :reference="reference" :onSuccess="onSuccessfulPayment"
-                                :onCanel="onCancelledPayment"></paystack>
+                              
+                                :subaccount="'ACCT_en7dk3obxr7mi0y'"
+                                :email="'collins@mail.com'" 
+                            
+                              
+                                :amount="amount" 
+                                :reference="reference" 
+                                :onSuccess="onSuccessfulPayment"
+                                :onCanel="onCancelledPayment"
+                                ></paystack>
                         </div>
                     </div>
                 </div>
@@ -221,14 +229,17 @@ export default {
             cartCount: 0,
             qty: 1,
             value: 1,
+            address: '',
+            split_code: 'SPL_UZcYSzM76j',
+            metadata: {},
 
-
+            userData: [],
 
             publicKey: 'pk_test_81d0ea622e4cb15731a72ac7025af87867e6495a',
             amount: 1000, //Expressed in lowest demonitation, so 1000kobo is equivalent to 10Naira
-            email: 'somteacodes@gmail.com',
-            firstname: 'Somtea', //optional field remember to pass as a prop of firstname if needed
-            lastname: 'Codes' //optional field remember to pass as a prop of lastname if needed
+            email: '',
+            firstname: '', //optional field remember to pass as a prop of firstname if needed
+            lastname: '' //optional field remember to pass as a prop of lastname if needed
 
         }
     },
@@ -258,7 +269,11 @@ export default {
 
     mounted() {
         this.getInvoiceDetails()
+        this.getUserData()
+       
     },
+
+
 
     updated() {
         console.log(this.qty)
@@ -276,7 +291,15 @@ export default {
                 document.getElementById('btn2Qty' + element.id).disabled = false
             }
 
+            this.userData = JSON.parse(localStorage.getItem('user_data'));
 
+            this.firstname = this.userData.name.split(" ")[0];
+            this.email = this.userData.email
+
+          
+
+
+            console.log(this.firstname)
 
 
             // console.log(document.getElementById('newQty'+element.id))
@@ -308,6 +331,17 @@ export default {
 
     methods: {
 
+        getUserData() {
+           
+            // this.userData = JSON.parse(localStorage.getItem('user_data'));
+
+ 
+            // this.firstname= this.userData.name
+            // this.email= this.userData
+
+ 
+        },
+
 
 
         format(value) {
@@ -324,7 +358,9 @@ export default {
                 method: 'post',
                 data:{
                     reference: response.reference,
-                    invoiceCode: localStorage.getItem('invoice_code')
+                    invoiceCode: localStorage.getItem('invoice_code'),
+                    trxref: response.reference,
+                    address: this.address
                 },
                 headers:{
                     'Authorization': 'Bearer '+localStorage.getItem('user_token'),
