@@ -149,11 +149,11 @@
                                                 <button
                                                     @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'decrement')"
                                                     class="btn btn-sm btn-primary rounded-circl border "
-                                                    style="width: 40px;" :id="'btn2Qty' + invoiceLine.id">-</button>
+                                                    style="width: 30px;" :id="'btn2Qty' + invoiceLine.id">-</button>
                                             </div>
-                                            <div class="" style="width: 50px;">
+                                            <div class="" style="width: 60px;">
 
-                                                <input type="text" :id="'newQty' + invoiceLine.id"
+                                                <input style="font-size: 97%;" type="text" :id="'newQty' + invoiceLine.id"
                                                     class="form-control form-control-sm text-center"
                                                     :value="invoiceLine.qty">
                                             </div>
@@ -164,10 +164,10 @@
                                                 <button
                                                     @click="updateInvoiceLine(invoiceLine.id, 'newQty' + invoiceLine.id, 'increment')"
                                                     class="btn btn-sm btn-primary rounded-circl border "
-                                                    style="width: 40px;">+</button>
+                                                    style="width: 30px;">+</button>
                                             </div>
                                         </div>
-                                        <h6 class="mt-2 float-right"> N {{ format(invoiceLine.total_amount) }}</h6>
+                                        <h6 style="font-size: 98%;" class="mt-2 float-right"> N {{ format(invoiceLine.total_amount) }}</h6>
 
                                     </div>
                                 </div>
