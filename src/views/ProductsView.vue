@@ -202,7 +202,8 @@ export default {
                 }
                
             }).then((response) => {
-              alert('Product Added to cart!!')
+                this.$notify("Product Added to cart!!");
+
 
               this.getInvoiceDetails()
 

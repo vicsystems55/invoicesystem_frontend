@@ -173,7 +173,6 @@
                                 </div>
 
 
-
                             </div>
                         </div>
 
@@ -206,6 +205,8 @@
                                 :onSuccess="onSuccessfulPayment"
                                 :onCanel="onCancelledPayment"
                                 ></paystack>
+
+                                <button @click=initiatePay() class="btn btn-primary">Pay</button>
                         </div>
                     </div>
                 </div>
@@ -330,6 +331,27 @@ export default {
     },
 
     methods: {
+
+        initiatePay(){
+
+            this.axios({
+                url: process.env.VUE_APP_URL + '/api/v1/initiate-pay',
+                method: 'post',
+                headers: {
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-type': 'application/json',
+                        'Accept': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                    },
+
+
+            }).then((res)=>{
+                console.log(res)
+            })
+
+            
+
+        },
 
         getUserData() {
            

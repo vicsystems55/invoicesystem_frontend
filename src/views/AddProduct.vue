@@ -38,21 +38,23 @@
 
                     <div class="form-group">
                         <label>Name</label>
-                        <input class="form-control" placeholder="Enter name of product">
+                        <input class="form-control" v-model="name" placeholder="Enter name of product">
 
                     </div>
 
                     <div class="form-group">
                         <label>Description</label>
-                        <input class="form-control" placeholder="Describe the product">
+                        <input class="form-control" v-model="description" placeholder="Describe the product">
 
                     </div>
 
                     <div class="form-group">
                         <label>Product Category</label>
-                        <select class="form-control">
-                            <option>Textile</option>
-                            <option>Footwears</option>
+                        <select v-model="category" class="form-control">
+
+                            <option v-for="productCategory in productCategories" :key="productCategory.index"
+                                :value="productCategory.id">{{ productCategory.category_name }}</option>
+
 
                         </select>
 
@@ -60,13 +62,17 @@
 
                     <div class="form-group">
                         <label>price</label>
-                        <input class="form-control" type="number">
+                        <input v-model="price" class="form-control" type="number">
 
                     </div>
 
                     <div class="form-group">
                         <label>status</label>
-                        <input class="form-control">
+                        <select v-model="status" class="form-control" id="">
+                            <option :value="'active'">Publish</option>
+                            <option :value="'draft'">Draft</option>
+
+                        </select>
 
                     </div>
 
@@ -86,25 +92,51 @@
 
 
                     <div class="form-group text-center py-2">
-                        <button @click="uploadAvatar()" class="btn btn-block btn-primary ">Submit</button>
+                        <button @click="createProduct()" class="btn btn-block btn-primary ">{{creatingProduct?'Creating...':'Submit'}}</button>
                     </div>
                 </div>
 
-            
-            <div class="col-md-8">
-                <h6 class="py-3">Products</h6>
-                <div class="card card-body mb-2 shadow">
 
+                <div class="col-md-8">
+                    <h6 class="py-3">Products</h6>
+                    <div v-for="product in products" :key="product.idex" class="card p-1 mb-2 shadow">
+
+                        <div class="row d-flex align-items-center">
+                            <div class="col-2" style="width: 80px;">
+                                <img :src="product.img_url" style="height: 45px; width: 45px; object-fit: cover;" alt="">
+                            </div>
+                            <div class="col-10">
+                                <div class="row">
+                                    <div class="col-sm-5">
+                                        <div class="">
+                                            {{ product.name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div style="font-size: 98%;" class="font-weight-bold">
+                                            N {{ format(product.price) }}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <div class="custom-control custom-switch">
+                                            <input type="checkbox" class="custom-control-input" :id="'switch'+product.id">
+                                            <label class="custom-control-label" :for="'switch'+product.id">live</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+
+
+
+                    </div>
 
 
                 </div>
-
-                <div class="card card-body mb-2 shadow">
-
-
-
-                </div>
-            </div>
 
             </div>
 
@@ -122,25 +154,73 @@ export default {
     data() {
         return {
             products: [],
+            productCategories: [],
             cartCount: 0,
+            productImage: '',
+            name: '',
+            description: '',
+            img_url: '',
+            price: '',
+            creatingProduct: false,
 
         }
     },
     mounted() {
 
+        this.getProducts()
+        this.getProductCategories()
+
+
     },
     methods: {
-        getInvoiceDetails() {
+        getProducts() {
+
+            this.axios({
+                url: process.env.VUE_APP_URL + '/api/v1/products',
+                method: 'get',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                }
+            })
+                .then((response) => {
+                    console.log(response)
+                    this.products = response.data
+                })
+                .catch((response) => {
+                    console.log(response)
+                })
 
 
 
 
         },
 
+        getProductCategories() {
+
+            this.axios({
+                url: process.env.VUE_APP_URL + '/api/v1/product-category',
+                method: 'get',
+                headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('user_token')
+                }
+            })
+                .then((response) => {
+                    console.log(response)
+                    this.productCategories = response.data
+                })
+                .catch((response) => {
+                    console.log(response)
+                })
+
+
+        },
+
+
+
         previewFile4(event) {
 
 
-            console.log(event)
+            console.log(event.target.files[0])
 
             if (event.target.files.length > 0) {
                 var src = URL.createObjectURL(event.target.files[0]);
@@ -149,18 +229,26 @@ export default {
                 // preview.style.display = "block";
             }
 
-            this.file = this.$refs.file.files[0];
+            this.productImage = event.target.files[0];
 
         },
 
-        uploadAvatar() {
+        createProduct() {
+            this.creatingProduct = true
             let formData = new FormData();
 
-            formData.append('avatar', this.file);
-            formData.append('type', 'avatar');
+            formData.append('product_image', this.productImage);
+
+            formData.append('name', this.name);
+            formData.append('description', this.description);
+            formData.append('img_url', this.img_url);
+            formData.append('price', this.price);
+            formData.append('user_id', JSON.parse(localStorage.getItem('user_data')).id);
+
+
 
             this.axios({
-                url: process.env.VUE_APP_URL + '/api/profiles',
+                url: process.env.VUE_APP_URL + '/api/v1/products',
                 method: 'post',
                 data: formData,
                 headers: {
@@ -170,11 +258,16 @@ export default {
             })
                 .then((response) => {
 
-                    // toast.success('Profile picture Updated');
+                this.$notify("Product Added!");
+
+                this.creatingProduct = false
 
                     console.log(response)
                 })
                 .catch((response) => {
+
+                this.creatingProduct = false
+
 
                     console.log(response)
                 })
@@ -194,9 +287,6 @@ export default {
 
 
         },
-
-
-
 
         format(value) {
             var numeral = require('numeral');
