@@ -178,7 +178,7 @@
 
 
                         <hr>
-                        <div class="col-md-6">
+                        <div class="col-md-6 py-3">
                             <div class="form-group">
                                 <label for="">Fullname:</label>
                                 <input type="text" class="form-control" placeholder="Fullname">
@@ -194,19 +194,19 @@
                             </div>
 
 
-                            <paystack buttonClass="btn btn-success " buttonText="Proceed to payments" :publicKey="publicKey"
+                            <paystack buttonClass="btn btn-success " buttonText="Proceed to payments" 
+                            :publicKey="publicKey"
                               
-                                :subaccount="'ACCT_en7dk3obxr7mi0y'"
-                                :email="'collins@mail.com'" 
-                            
-                              
+                                :split_code="split_code"
+                                :email="email" 
                                 :amount="amount" 
                                 :reference="reference" 
                                 :onSuccess="onSuccessfulPayment"
                                 :onCanel="onCancelledPayment"
+
                                 ></paystack>
 
-                                <button @click=initiatePay() class="btn btn-primary">Pay</button>
+                                <!-- <button @click=initiatePay() class="btn btn-primary">Pay</button> -->
                         </div>
                     </div>
                 </div>
@@ -218,7 +218,7 @@
 
 <script >
 import { onUpdated } from 'vue'
-import paystack from "vue3-paystack";
+import paystack from "vue3-paystack"
 import { nanoid } from "nanoid"; //if using nanoid
 
 
