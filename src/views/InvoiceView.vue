@@ -196,8 +196,7 @@
 
                             <paystack buttonClass="btn btn-success " buttonText="Proceed to payments" 
                             :publicKey="publicKey"
-                              
-                                :split_code="split_code"
+                                :split_code="'SPL_UZcYSzM76j'"
                                 :email="email" 
                                 :amount="amount" 
                                 :reference="reference" 
@@ -218,7 +217,8 @@
 
 <script >
 import { onUpdated } from 'vue'
-import paystack from "vue3-paystack"
+import paystack from "../../node_modules/vue3-paystack/src/vue3-paystack.vue"
+// const { paystack } = require('vue3-paystack.vue/src/vue3-paystack.vue')
 import { nanoid } from "nanoid"; //if using nanoid
 
 
